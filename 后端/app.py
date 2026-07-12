@@ -1234,7 +1234,6 @@ def find_plan_question(interview_plan, question_id):
 
 def build_interview_feedback(session):
     questions = session["questions"]
-    answers = session["answers"]
     interview_plan = session.get("interview_plan", {})
     job_direction = interview_plan.get("job_direction", "通用岗位")
     reviews = []

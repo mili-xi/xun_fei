@@ -1,5 +1,4 @@
 from pathlib import Path
-import requests
 
 # 下载临时ffmpeg
 ffmpeg_bin = Path("ffmpeg.exe")

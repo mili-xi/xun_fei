@@ -2,8 +2,6 @@
 讯飞星火认知大模型客户端。
 通过 HTTP API (OpenAI 兼容格式) 调用，Bearer Token 鉴权。
 """
-import bootstrap
-import json
 import os
 import requests
 from backend_errors import UpstreamServiceError

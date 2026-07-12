@@ -479,7 +479,6 @@ class FlaskAppContractTests(unittest.TestCase):
         self.assertEqual(payload["data"]["question_source"], "fallback")
         questions = payload["data"]["questions"]
         self.assertEqual(len(questions), 3)
-        joined = "\n".join(question["content"] for question in questions)
         self.assertTrue(any("用户" in question["content"] or "需求" in question["content"] for question in questions))
         self.assertTrue(any("原型" in question["content"] or "跨部门" in question["content"] for question in questions))
 

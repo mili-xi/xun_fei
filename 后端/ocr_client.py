@@ -5,17 +5,16 @@ The project uses the newer OCR large-model WebAPI endpoint shown in the
 open-platform console, such as:
 https://cbm01.cn-huabei-1.xf-yun.com/v1/private/se75ocrbm
 """
-import bootstrap
 import base64
 import hashlib
 import hmac
 import json
+import requests
 from datetime import datetime
 from time import mktime
 from urllib.parse import urlencode, urlparse
 from wsgiref.handlers import format_date_time
 
-import requests
 
 from backend_errors import UpstreamServiceError
 from config import IFLYTEK_APP_ID, IFLYTEK_API_KEY, IFLYTEK_API_SECRET, OCR_URL, OCR_HTTP_TIMEOUT
@@ -140,7 +139,6 @@ class IFlyTekOCRClient:
         if isinstance(header, dict):
             code = header.get("code", 0)
             if code not in (0, "0"):
-                message = header.get("message") or header.get("sid") or result
                 raise UpstreamServiceError("ocr", f"OCR service returned error code {code}")
             return
         if result.get("code") not in (None, "0", 0):
