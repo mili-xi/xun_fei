@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Xunfei Job Assistant Settings</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="card">
+        <p class="eyebrow">First-run setup</p>
+        <h1>配置你的讯飞凭据</h1>
+        <p class="lede">
+          本项目不再内置或加载仓库里的凭据。你可以保存自己的 iFlytek / XFYUN 凭据，
+          或先以本地兜底模式继续使用。
+        </p>
+
+        <form id="credential-form" autocomplete="off">
+          <label>
+            APP ID
+            <input name="IFLYTEK_APP_ID" autocomplete="off" spellcheck="false">
+          </label>
+          <label>
+            API Key
+            <input name="IFLYTEK_API_KEY" autocomplete="off" spellcheck="false">
+          </label>
+          <label>
+            API Secret
+            <input name="IFLYTEK_API_SECRET" type="password" autocomplete="new-password" spellcheck="false">
+          </label>
+          <label>
+            Spark API Password（可选）
+            <input name="IFLYTEK_SPARK_API_PASSWORD" type="password" autocomplete="new-password" spellcheck="false">
+          </label>
+
+          <div class="actions">
+            <button type="submit">加密保存并启动</button>
+            <button type="button" id="local-mode">暂不配置，使用本地模式</button>
+            <button type="button" id="clear">清除已保存凭据</button>
+          </div>
+        </form>
+
+        <pre id="status" aria-live="polite"></pre>
+      </section>
+    </main>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
