@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>求职智能助手 | 科大讯飞AI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+ 
+:root {
+  --navy-950: #080E1A;
+  --navy-900: #0F172A;
+  --navy-850: #13203F;
+  --navy-800: #1A2942;
+  --navy-700: #243655;
+  --navy-600: #334668;
+  --navy-400: #5A6F92;
+  --navy-300: #8899BB;
+  --coral: #FF6B6B;
+  --coral-dark: #E85555;
+  --coral-light: #FF8E8E;
+  --coral-glow: rgba(255,107,107,0.15);
+  --mint: #4ECDC4;
+  --mint-dark: #3AB5AD;
+  --mint-glow: rgba(78,205,196,0.12);
+  --gold: #FFD93D;
+  --gold-glow: rgba(255,217,61,0.1);
+  --bg-root: #080E1A;
+  --bg-card: #0F172A;
+  --bg-elevated: #13203F;
+  --bg-hover: #1A2942;
+  --bg-input: #080E1A;
+  --text-main: #E8ECF4;
+  --text-secondary: #8899BB;
+  --text-muted: #5A6F92;
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(255,255,255,0.1);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.3);
+  --shadow-coral: 0 0 40px rgba(255,107,107,0.15);
+  --shadow-mint: 0 0 40px rgba(78,205,196,0.1);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --nav-bg: rgba(15, 23, 42, 0.95);
+  --font-heading: 'DM Sans', -apple-system, sans-serif;
+  --font-body: 'Source Sans 3', -apple-system, sans-serif;
+}
+ 
+[data-theme="light"] {
+  --navy-950: #F8FAFC;
+  --navy-900: #FFFFFF;
+  --navy-850: #F1F5F9;
+  --navy-800: #E2E8F0;
+  --navy-700: #CBD5E1;
+  --navy-600: #94A3B8;
+  --navy-400: #64748B;
+  --navy-300: #475569;
+  --bg-root: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F8FAFC;
+  --bg-hover: #F1F5F9;
+  --bg-input: #FFFFFF;
+  --text-main: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --border: rgba(0,0,0,0.08);
+  --border-accent: rgba(0,0,0,0.12);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-coral: 0 0 32px rgba(255,107,107,0.08);
+  --shadow-mint: 0 0 32px rgba(78,205,196,0.08);
+  --nav-bg: rgba(255, 255, 255, 0.92);
+}
+ 
+[data-theme="light"] .nav {
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+ 
+[data-theme="light"] .card:hover {
+  border-color: rgba(0,0,0,0.12);
+}
+ 
+[data-theme="light"] .upload-zone {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+}
+ 
+[data-theme="light"] .upload-zone:hover {
+  background: rgba(255,107,107,0.04);
+  border-color: var(--coral);
+}
+ 
+[data-theme="light"] .chat-bubble-ai,
+[data-theme="light"] .voice-bubble-ai {
+  background: #F1F5F9;
+  border-color: rgba(0,0,0,0.08);
+}
+ 
+[data-theme="light"] .input-field {
+  border-color: rgba(0,0,0,0.12);
+}
+ 
+[data-theme="light"] .input-field:focus {
+  background: #F8FAFC;
+}
+ 
+[data-theme="light"] .btn-record {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  color: #475569;
+}
+ 
+[data-theme="light"] .btn-record:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+ 
+[data-theme="light"] .voice-controls {
+  background: #FFFFFF;
+}
+ 
+[data-theme="light"] .interview-header {
+  background: #FFFFFF;
+}
+ 
+[data-theme="light"] .typing-dots {
+  background: #F1F5F9;
+  border-color: rgba(0,0,0,0.08);
+}
+ 
+[data-theme="light"] .tag-coral { background: rgba(255,107,107,0.1); }
+[data-theme="light"] .tag-mint { background: rgba(78,205,196,0.1); }
+[data-theme="light"] .tag-gold { background: rgba(255,217,61,0.15); }
+[data-theme="light"] .tag-blue { background: rgba(96,165,250,0.1); }
+[data-theme="light"] .tag-purple { background: rgba(167,139,250,0.1); }
+ 
+[data-theme="light"] .icon-coral { background: rgba(255,107,107,0.1); }
+[data-theme="light"] .icon-mint { background: rgba(78,205,196,0.1); }
+[data-theme="light"] .icon-gold { background: rgba(255,217,61,0.12); }
+ 
+[data-theme="light"] .card-accent-coral { border-left-color: var(--coral); }
+[data-theme="light"] .card-accent-mint { border-left-color: var(--mint); }
+[data-theme="light"] .card-accent-gold { border-left-color: var(--gold); }
+ 
+[data-theme="light"] .score-circle.high { background: rgba(78,205,196,0.08); }
+[data-theme="light"] .score-circle.medium { background: rgba(255,217,61,0.08); }
+[data-theme="light"] .score-circle.low { background: rgba(255,107,107,0.08); }
+ 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+html, body {
+  height: 100%;
+  font-family: var(--font-body);
+  background: var(--bg-root);
+  color: var(--text-main);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+ 
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 960px;
+  margin: 0 auto;
+}
+ 
+/* ===== 导航栏 ===== */
+.nav {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.95);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  flex-shrink: 0;
+  gap: 6px;
+}
+ 
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+ 
+.theme-toggle:hover {
+  background: var(--bg-hover);
+  color: var(--text-main);
+  border-color: var(--border-accent);
+}
+ 
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: inline; }
+ 
+[data-theme="light"] .theme-toggle .icon-sun { display: inline; }
+[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+ 
+.nav-brand {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-right: 8px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+ 
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+ 
+.nav-tab {
+  padding: 8px 20px;
+  border-radius: 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+ 
+.nav-tab:hover {
+  color: var(--text-main);
+  background: var(--bg-hover);
+}
+ 
+.nav-tab.active {
+  background: var(--coral);
+  color: var(--navy-950);
+}
+ 
+.nav-tab.active.mint {
+  background: var(--mint);
+}
+ 
+.nav-tab.active.gold {
+  background: var(--gold);
+}
+ 
+/* ===== 内容区 ===== */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+ 
+.content::-webkit-scrollbar { width: 5px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: var(--navy-600); border-radius: 3px; }
+.content::-webkit-scrollbar-thumb:hover { background: var(--navy-400); }
+ 
+.section {
+  display: none;
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+ 
+.section.active {
+  display: block;
+}
+ 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+ 
+/* ===== 卡片 ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 18px;
+  transition: all 0.3s;
+}
+ 
+.card:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-md);
+}
+ 
+.card-accent-coral { border-left: 3px solid var(--coral); }
+.card-accent-mint { border-left: 3px solid var(--mint); }
+.card-accent-gold { border-left: 3px solid var(--gold); }
+ 
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+ 
+.icon-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+ 
+.icon-coral { background: var(--coral-glow); color: var(--coral); }
+.icon-mint { background: var(--mint-glow); color: var(--mint); }
+.icon-gold { background: var(--gold-glow); color: var(--gold); }
+ 
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-xl);
+  border: none;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+ 
+.btn-primary {
+  background: var(--coral);
+  color: var(--navy-950);
+}
+.btn-primary:hover {
+  background: var(--coral-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-coral);
+}
+.btn-primary:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+ 
+.btn-mint {
+  background: var(--mint);
+  color: var(--navy-950);
+}
+.btn-mint:hover {
+  background: var(--mint-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-mint);
+}
+.btn-mint:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+ 
+.btn-outline {
+  background: transparent;
+  color: var(--coral);
+  border: 2px solid var(--coral);
+}
+.btn-outline:hover {
+  background: var(--coral);
+  color: var(--navy-950);
+  transform: translateY(-2px);
+}
+.btn-outline:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+ 
+.btn-lg {
+  padding: 14px 36px;
+  font-size: 16px;
+  border-radius: 32px;
+}
+ 
+.btn-block {
+  width: 100%;
+}
+ 
+/* ===== 输入框 ===== */
+.input-field {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.25s;
+}
+.input-field:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px var(--coral-glow);
+  background: var(--navy-850);
+}
+.input-field::placeholder {
+  color: var(--navy-400);
+}
+.input-field.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.7;
+}
+ 
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238899BB' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+ 
+/* ===== 上传区 ===== */
+.upload-zone {
+  border: 2px dashed var(--navy-600);
+  border-radius: var(--radius-lg);
+  padding: 36px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: var(--bg-input);
+}
+.upload-zone:hover {
+  border-color: var(--coral);
+  background: var(--coral-glow);
+  border-style: solid;
+}
+.upload-zone.has-file {
+  border-color: var(--mint);
+  border-style: solid;
+  background: var(--mint-glow);
+  padding: 20px;
+}
+.upload-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--coral-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--coral);
+  font-size: 24px;
+}
+.upload-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+.upload-hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+ 
+/* ===== 标签 ===== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tag-coral { background: var(--coral-glow); color: var(--coral); }
+.tag-mint { background: var(--mint-glow); color: var(--mint); }
+.tag-gold { background: var(--gold-glow); color: var(--gold); }
+.tag-blue { background: rgba(96,165,250,0.12); color: #60A5FA; }
+.tag-purple { background: rgba(167,139,250,0.12); color: #A78BFA; }
+ 
+/* ===== 分析结果 ===== */
+.result-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+ 
+.gauge-wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+ 
+.gauge-score {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1;
+}
+ 
+.gauge-label {
+  position: absolute;
+  top: 68%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+ 
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+ 
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+ 
+.info-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+ 
+.info-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+ 
+.skills-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+ 
+.score-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.score-circle.high { background: var(--mint-glow); border: 4px solid var(--mint); color: var(--mint); }
+.score-circle.medium { background: var(--gold-glow); border: 4px solid var(--gold); color: var(--gold); }
+.score-circle.low { background: var(--coral-glow); border: 4px solid var(--coral); color: var(--coral); }
+.score-num { font-family: var(--font-heading); font-size: 40px; font-weight: 900; line-height: 1; }
+.score-label { font-size: 11px; font-weight: 600; opacity: 0.7; margin-top: 4px; }
+ 
+/* ===== 面试 ===== */
+.interview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+ 
+.interview-progress {
+  flex: 1;
+  min-width: 200px;
+}
+ 
+.progress-bar {
+  height: 6px;
+  background: var(--navy-800);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+ 
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--coral), var(--coral-light));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+ 
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  padding: 7px 16px;
+  border-radius: 24px;
+}
+.timer.normal { color: var(--coral); background: var(--coral-glow); }
+.timer.warning { color: #F87171; background: rgba(248,113,113,0.12); }
+ 
+/* ===== 聊天气泡 ===== */
+.chat-bubble-ai {
+  background: var(--navy-850);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 6px;
+  padding: 16px 20px;
+  max-width: 88%;
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.72;
+  margin-bottom: 12px;
+}
+ 
+.chat-bubble-user {
+  background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+  color: #fff;
+  border-radius: var(--radius-lg) var(--radius-lg) 6px var(--radius-lg);
+  padding: 16px 20px;
+  max-width: 88%;
+  font-size: 15px;
+  line-height: 1.72;
+  margin-left: auto;
+  margin-bottom: 12px;
+}
+ 
+.chat-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+ 
+.chat-row {
+  display: flex;
+  gap: 10px;
+}
+ 
+.chat-row.user {
+  flex-direction: row-reverse;
+}
+ 
+.chat-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+ 
+.chat-avatar.ai {
+  background: var(--mint-glow);
+  color: var(--mint);
+}
+ 
+.chat-avatar.user {
+  background: var(--coral-glow);
+  color: var(--coral);
+}
+ 
+.chat-input-row {
+  display: flex;
+  gap: 10px;
+}
+ 
+/* ===== 语音相关样式 ===== */
+.voice-chat-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+ 
+.voice-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 16px;
+}
+ 
+.voice-msg {
+  display: flex;
+  gap: 10px;
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+ 
+.voice-msg.user {
+  flex-direction: row-reverse;
+}
+ 
+.voice-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.voice-avatar.ai { background: var(--mint-glow); color: var(--mint); }
+.voice-avatar.user { background: var(--coral-glow); color: var(--coral); }
+ 
+.voice-body {
+  max-width: 80%;
+}
+ 
+.voice-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+ 
+.voice-bubble-ai {
+  background: var(--navy-850);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 6px;
+  padding: 14px 18px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-main);
+}
+ 
+.voice-bubble-user {
+  background: linear-gradient(135deg, var(--coral), var(--coral-dark));
+  border-radius: var(--radius-lg) var(--radius-lg) 6px var(--radius-lg);
+  padding: 14px 18px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #fff;
+}
+ 
+.transcribe-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  background: var(--mint-glow);
+  color: var(--mint);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+ 
+.voice-controls {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding: 14px 20px;
+}
+ 
+.voice-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+ 
+.btn-record {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: 32px;
+  border: 1.5px solid var(--navy-600);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+}
+ 
+.btn-record:hover {
+  background: var(--bg-hover);
+  border-color: var(--navy-400);
+  color: var(--text-main);
+}
+ 
+.btn-record.recording {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #fff;
+  animation: recordPulse 1.5s infinite;
+  box-shadow: 0 0 0 6px var(--coral-glow), 0 4px 16px rgba(255,107,107,0.3);
+}
+ 
+@keyframes recordPulse {
+  0%, 100% { box-shadow: 0 0 0 6px var(--coral-glow), 0 4px 16px rgba(255,107,107,0.25); }
+  50% { box-shadow: 0 0 0 14px rgba(255,107,107,0.08), 0 6px 24px rgba(255,107,107,0.35); }
+}
+ 
+.record-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--coral);
+  transition: all 0.3s;
+}
+ 
+.btn-record.recording .record-dot {
+  background: #fff;
+  animation: dotBlink 0.8s infinite;
+}
+ 
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+ 
+.record-timer {
+  font-family: monospace;
+  font-size: 14px;
+  min-width: 36px;
+  text-align: left;
+}
+ 
+/* ===== Typing ===== */
+.typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 16px;
+  background: var(--navy-850);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: fit-content;
+  border-bottom-left-radius: 6px;
+}
+ 
+.typing-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mint);
+  animation: dotPulse 1.4s infinite;
+}
+ 
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+ 
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+ 
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+ 
+/* ===== 响应式 ===== */
+@media (max-width: 640px) {
+  .nav-brand { font-size: 14px; }
+  .nav-tab { padding: 6px 14px; font-size: 13px; }
+  .content { padding: 16px; }
+  .card { padding: 20px; }
+  .info-grid { grid-template-columns: 1fr; }
+  .chat-bubble-ai, .chat-bubble-user { max-width: 95%; }
+}
+</style>
+</head>
+<body>
+ 
+<div id="app">
+  <div class="nav">
+    <span class="nav-brand">求职智能助手</span>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="resume" onclick="switchTab('resume')">简历优化</button>
+      <button class="nav-tab" data-tab="interview" onclick="switchTab('interview')">模拟面试</button>
+      
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" title="切换浅色/深色模式">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </button>
+  </div>
+ 
+  <div class="content">
+    <!-- ====== 简历优化 ====== -->
+    <div class="section active" id="section-resume">
+      <div id="resume-upload-view">
+        <div class="card">
+          <div class="card-title">
+            <div class="icon-circle icon-coral">📄</div>
+            上传简历图片
+          </div>
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png" style="display:none" onchange="handleFileSelect(event)">
+            <div id="uploadEmpty">
+              <div class="upload-icon">📁</div>
+              <p class="upload-text">点击或拖拽上传简历图片</p>
+              <p class="upload-hint">支持 JPG / PNG 格式，图片大小不超过 4MB</p>
+            </div>
+            <div id="uploadPreview" style="display:none">
+              <p style="color:var(--mint);font-weight:700;margin-bottom:8px;">✅ 已上传</p>
+              <img id="previewImg" style="max-height:120px;border-radius:var(--radius-sm);border:1px solid var(--border);">
+              <p style="font-size:13px;color:var(--text-muted);margin-top:6px;">点击更换图片</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <div class="icon-circle icon-mint">🎯</div>
+            目标岗位描述
+          </div>
+          <textarea class="input-field textarea" id="jobDesc" placeholder="请粘贴目标岗位的职位描述（JD）..."></textarea>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+            <span id="jdCharCount">0 字</span>
+          </div>
+        </div>
+ 
+        <button class="btn btn-primary btn-lg btn-block" id="btnAnalyze" disabled onclick="analyzeResume()">
+          🔍 开始分析
+        </button>
+        <div id="analyzeStatus" style="text-align:center;margin-top:12px;display:none;">
+          <div class="typing-dots" style="margin:0 auto;">
+            <span></span><span></span><span></span>
+          </div>
+          <p style="font-size:13px;color:var(--text-muted);margin-top:8px;">AI 正在分析简历中，请稍候...</p>
+        </div>
+      </div>
+ 
+      <div id="resume-result-view" style="display:none">
+        <div class="result-header">
+          <div class="gauge-wrap" id="gaugeWrap"></div>
+          <span id="matchTag" class="tag"></span>
+        </div>
+ 
+        <div class="card card-accent-mint" id="coreInfoCard"></div>
+
+        <div id="hardRequirementsCard" class="card card-accent-coral"></div>
+
+        <div id="credibilityCard" class="card card-accent-gold"></div>
+
+        <div id="riskFlagsCard" class="card card-accent-coral"></div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+          <div id="advantagesCard" class="card card-accent-coral"></div>
+          <div id="disadvantagesCard" class="card card-accent-coral"></div>
+        </div>
+
+        <div id="deepDiveCard" class="card card-accent-mint"></div>
+
+        <div id="suggestionsCard" style="margin-bottom:16px;"></div>
+
+        <div id="interviewPrepCard" class="card card-accent-gold"></div>
+ 
+        <button class="btn btn-outline btn-lg btn-block" onclick="resetResume()" style="margin-top:8px;">
+          ← 重新分析
+        </button>
+      </div>
+    </div>
+ 
+    <!-- ====== 模拟面试 ====== -->
+    <div class="section" id="section-interview">
+      <div id="interview-start-view">
+        <div class="card" style="text-align:center;padding:48px 28px;">
+          <div class="icon-circle icon-mint" style="width:60px;height:60px;margin:0 auto 16px;font-size:28px;">💬</div>
+          <h3 style="font-family:var(--font-heading);font-size:20px;margin-bottom:8px;">AI 模拟面试</h3>
+          <p style="color:var(--text-secondary);margin-bottom:24px;font-size:14px;">
+            基于你的简历和岗位描述，AI 将生成个性化面试题<br>请在完成简历分析后使用
+          </p>
+          <div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <select class="input-field" id="questionCount" style="width:auto;min-width:100px;">
+              <option value="3">3 题</option>
+              <option value="5" selected>5 题</option>
+              <option value="8">8 题</option>
+            </select>
+            <button class="btn btn-mint btn-lg" id="btnStartInterview" disabled onclick="startInterview()">
+              开始面试
+            </button>
+          </div>
+          <p id="interviewHint" style="font-size:12px;color:var(--text-muted);margin-top:12px;">
+            请先完成简历分析后再开始面试
+          </p>
+        </div>
+      </div>
+ 
+      <div id="interview-qa-view" style="display:none">
+        <div class="interview-header">
+          <span style="font-family:var(--font-heading);font-weight:800;font-size:16px;">AI 模拟面试</span>
+          <span id="questionIndex" style="font-size:13px;color:var(--text-muted);">第 1/5 题</span>
+          <span id="questionType" class="tag tag-coral"></span>
+          <div class="interview-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" id="interviewProgress" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="timer normal" id="interviewTimer">3:00</div>
+        </div>
+ 
+        <div class="chat-area" id="interviewChat"></div>
+ 
+        <div class="chat-input-row">
+          <input class="input-field" id="interviewAnswer" placeholder="输入你的回答，按 Enter 发送..."
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey)submitInterviewAnswer()">
+          <button class="btn btn-primary" id="btnSubmitAnswer" onclick="submitInterviewAnswer()">发送</button>
+        </div>
+        <button class="btn-record" id="btnInterviewRecord" type="button" onclick="toggleInterviewVoiceInput()" style="margin-top:10px;">
+          <div class="record-dot"></div>
+          <span id="btnInterviewRecordLabel">开始回答</span>
+          <span class="record-timer" id="interviewVoiceTimer" style="display:none">0:00</span>
+        </button>
+      </div>
+ 
+      <div id="interview-feedback-view" style="display:none">
+        <div class="result-header">
+          <div id="feedbackScoreCircle" style="margin-bottom:8px;"></div>
+        </div>
+        <div id="feedbackSummary" class="card card-accent-gold"></div>
+        <div id="feedbackReviews"></div>
+        <button class="btn btn-outline btn-lg btn-block" onclick="resetInterview()" style="margin-top:12px;">
+          ← 重新面试
+        </button>
+      </div>
+    </div>
+ 
+    </div>
+  </div>
+</div>
+ 
+<script>
+/* ===== 全局状态 ===== */
+var currentTab = 'resume';
+ 
+/* ===== 主题切换 ===== */
+function getTheme() {
+  return localStorage.getItem('theme') || 'dark';
+}
+ 
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  localStorage.setItem('theme', theme);
+}
+ 
+function toggleTheme() {
+  var current = getTheme();
+  var next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+}
+ 
+applyTheme(getTheme());
+var resumeFile = null;
+var resumePreview = null;
+var analyzeResult = null;
+var interviewSessionId = '';
+var interviewQuestions = [];
+var interviewAnswers = [];
+var currentQIndex = 0;
+var interviewTimer = 180;
+var interviewTimerInterval = null;
+var interviewSubmitted = false;
+var interviewRecording = false;
+var interviewMediaRecorder = null;
+var interviewAudioChunks = [];
+var interviewVoiceTimerInterval = null;
+var liveInterviewRecognition = null;
+var liveInterviewFinalText = '';
+var liveInterviewListening = false;
+ 
+/* ===== 导航切换 ===== */
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.nav-tab').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  var tabBtn = document.querySelector('[data-tab="'+tab+'"]');
+  if (tabBtn) tabBtn.classList.add('active');
+  var section = document.getElementById('section-'+tab);
+  if (section) section.classList.add('active');
+ 
+  if (tab === 'interview') {
+    updateInterviewAvailability();
+  }
+}
+ 
+/* ===== 简历分析 ===== */
+function handleFileSelect(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.match(/image\/(jpeg|png)/)) { alert('仅支持 JPG/PNG 格式'); return; }
+  if (file.size > 4*1024*1024) { alert('图片大小不能超过 4MB'); return; }
+  resumeFile = file;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    resumePreview = ev.target.result;
+    document.getElementById('uploadEmpty').style.display = 'none';
+    document.getElementById('uploadPreview').style.display = 'block';
+    document.getElementById('previewImg').src = resumePreview;
+    document.getElementById('uploadZone').classList.add('has-file');
+  };
+  reader.readAsDataURL(file);
+  updateAnalyzeButton();
+}
+ 
+document.getElementById('uploadZone').addEventListener('dragover', function(e) {
+  e.preventDefault();
+  this.style.borderColor = 'var(--coral)';
+  this.style.background = 'var(--coral-glow)';
+});
+document.getElementById('uploadZone').addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  if (e.relatedTarget && this.contains(e.relatedTarget)) return;
+  this.style.borderColor = '';
+  this.style.background = '';
+});
+document.getElementById('uploadZone').addEventListener('drop', function(e) {
+  e.preventDefault();
+  this.style.borderColor = '';
+  this.style.background = '';
+  var file = e.dataTransfer.files[0];
+  if (file) {
+    var input = document.getElementById('fileInput');
+    var dt = new DataTransfer();
+    dt.items.add(file);
+    input.files = dt.files;
+    handleFileSelect({ target: { files: dt.files } });
+  }
+});
+ 
+document.getElementById('jobDesc').addEventListener('input', function() {
+  document.getElementById('jdCharCount').textContent = this.value.length + ' 字';
+  updateAnalyzeButton();
+});
+
+function updateAnalyzeButton() {
+  var btn = document.getElementById('btnAnalyze');
+  btn.disabled = !(resumeFile && document.getElementById('jobDesc').value.trim());
+}
+ 
+async function analyzeResume() {
+  if (!resumeFile || !document.getElementById('jobDesc').value.trim()) return;
+  document.getElementById('analyzeStatus').style.display = 'block';
+  document.getElementById('btnAnalyze').disabled = true;
+
+  var formData = new FormData();
+  formData.append('image', resumeFile);
+  formData.append('job_desc', document.getElementById('jobDesc').value);
+ 
+  try {
+    var res = await fetch('/api/analyze', { method: 'POST', body: formData });
+    var json = await res.json();
+    document.getElementById('analyzeStatus').style.display = 'none';
+    if (json.code === 0) {
+      analyzeResult = json.data;
+      showResumeResult();
+      updateInterviewAvailability();
+    } else {
+      alert('分析失败: ' + (json.message || '未知错误'));
+      document.getElementById('btnAnalyze').disabled = false;
+    }
+  } catch (err) {
+    document.getElementById('analyzeStatus').style.display = 'none';
+    document.getElementById('btnAnalyze').disabled = false;
+    alert('网络请求失败: ' + err.message);
+  }
+}
+ 
+function showResumeResult() {
+  document.getElementById('resume-upload-view').style.display = 'none';
+  document.getElementById('resume-result-view').style.display = 'block';
+
+  var score = analyzeResult.match_score;
+  var ci = analyzeResult.core_info;
+  var adv = analyzeResult.advantages;
+  var dis = analyzeResult.disadvantages;
+  var sug = analyzeResult.suggestions;
+  var hardReqs = analyzeResult.hard_requirements_check || [];
+  var credibility = analyzeResult.experience_credibility || {};
+  var riskFlags = analyzeResult.risk_flags || [];
+  var deepDive = analyzeResult.deep_dive_topics || [];
+  var interviewPrep = analyzeResult.interview_prep_advice || [];
+  var scoreReason = analyzeResult.match_score_reason || '';
+  var sc = score >= 70 ? 'high' : score >= 40 ? 'medium' : 'low';
+  var scColor = score >= 70 ? 'var(--mint)' : score >= 40 ? 'var(--gold)' : 'var(--coral)';
+  var scBg = score >= 70 ? 'var(--mint-glow)' : score >= 40 ? 'var(--gold-glow)' : 'var(--coral-glow)';
+  var scTag = score >= 70 ? 'tag-mint' : score >= 40 ? 'tag-gold' : 'tag-coral';
+  var scLabel = score >= 70 ? '匹配度优秀' : score >= 40 ? '匹配度一般' : '匹配度较低';
+
+  var r = 72, c = 2*Math.PI*r, off = c - (score/100)*c;
+  document.getElementById('gaugeWrap').innerHTML =
+    '<svg style="width:180px;height:180px;transform:rotate(-90deg)" viewBox="0 0 180 180">' +
+    '<circle cx="90" cy="90" r="'+r+'" fill="none" stroke="'+scBg+'" stroke-width="12"/>' +
+    '<circle cx="90" cy="90" r="'+r+'" fill="none" stroke="'+scColor+'" stroke-width="12" stroke-linecap="round" ' +
+    'stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" style="transition:stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)"/>' +
+    '</svg>' +
+    '<div class="gauge-score" style="color:'+scColor+'">'+score+'</div>' +
+    '<div class="gauge-label">匹配度评分</div>' +
+    (scoreReason ? '<p style="font-size:12px;color:var(--text-muted);margin-top:4px;max-width:200px;">'+esc(scoreReason)+'</p>' : '');
+
+  var matchTag = document.getElementById('matchTag');
+  matchTag.className = 'tag ' + scTag;
+  matchTag.textContent = scLabel;
+
+  document.getElementById('coreInfoCard').innerHTML =
+    '<div class="card-title"><div class="icon-circle icon-mint">📋</div>核心信息提取</div>' +
+    '<div class="info-grid">' +
+    '<div class="info-item"><span class="info-label">姓名</span><span class="info-value">'+esc(ci.name||'—')+'</span></div>' +
+    '<div class="info-item"><span class="info-label">学历</span><span class="info-value">'+esc(ci.education||'—')+'</span></div>' +
+    '<div class="info-item"><span class="info-label">工作年限</span><span class="info-value">'+esc(ci.years||'—')+'</span></div>' +
+    '<div class="info-item"><span class="info-label">当前职位</span><span class="info-value">'+esc(ci.position||'—')+'</span></div>' +
+    '</div>' +
+    '<span class="info-label" style="display:block;margin-bottom:8px;">核心技能</span>' +
+    '<div class="skills-flex">' + (ci.skills||[]).map(function(s,i){ return '<span class="tag '+['tag-coral','tag-mint','tag-gold','tag-blue','tag-purple'][i%5]+'">'+esc(s)+'</span>'; }).join('') + '</div>';
+
+  if (hardReqs.length > 0) {
+    document.getElementById('hardRequirementsCard').style.display = '';
+    document.getElementById('hardRequirementsCard').innerHTML =
+      '<div class="card-title"><div class="icon-circle icon-coral">🎯</div>硬性要求逐项核对</div>' +
+      '<div style="display:flex;flex-direction:column;gap:8px;">' +
+      hardReqs.map(function(rr){
+        var icon = rr.met ? '✅' : '❌';
+        var color = rr.met ? 'var(--mint)' : 'var(--coral)';
+        return '<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 12px;background:var(--bg-elevated);border-radius:var(--radius-sm);">' +
+          '<span style="font-size:16px;">'+icon+'</span>' +
+          '<div><p style="font-weight:700;font-size:14px;color:'+color+';">'+esc(rr.requirement)+'</p>' +
+          '<p style="font-size:12px;color:var(--text-muted);">'+esc(rr.evidence||'')+'</p></div></div>';
+      }).join('') + '</div>';
+  } else { document.getElementById('hardRequirementsCard').style.display = 'none'; }
+
+  if (credibility.score !== undefined || (credibility.concerns && credibility.concerns.length > 0)) {
+    document.getElementById('credibilityCard').style.display = '';
+    var credScore = credibility.score || 0;
+    var credColor = credScore >= 70 ? 'var(--mint)' : credScore >= 40 ? 'var(--gold)' : 'var(--coral)';
+    document.getElementById('credibilityCard').innerHTML =
+      '<div class="card-title"><div class="icon-circle icon-gold">🔍</div>经历可信度评估</div>' +
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">' +
+      '<span style="font-size:28px;font-weight:800;color:'+credColor+';">'+credScore+'</span>' +
+      '<span style="font-size:13px;color:var(--text-muted);">/100 分</span></div>' +
+      (credibility.concerns||[]).map(function(cc){ return '<p style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;">⚠️ '+esc(cc)+'</p>'; }).join('');
+  } else { document.getElementById('credibilityCard').style.display = 'none'; }
+
+  if (riskFlags.length > 0) {
+    document.getElementById('riskFlagsCard').style.display = '';
+    document.getElementById('riskFlagsCard').innerHTML =
+      '<div class="card-title"><div class="icon-circle icon-coral">🚩</div>风险标记</div>' +
+      '<div style="display:flex;flex-direction:column;gap:8px;">' +
+      riskFlags.map(function(rf){
+        return '<div style="padding:10px 14px;background:var(--coral-glow);border-radius:var(--radius-sm);border-left:3px solid var(--coral);">' +
+          '<p style="font-weight:700;font-size:13px;color:var(--coral);margin-bottom:4px;">'+esc(rf.type||'风险')+'</p>' +
+          '<p style="font-size:12px;color:var(--text-secondary);">'+esc(rf.detail||'')+'</p></div>';
+      }).join('') + '</div>';
+  } else { document.getElementById('riskFlagsCard').style.display = 'none'; }
+
+  document.getElementById('advantagesCard').innerHTML =
+    '<div class="card-title" style="color:var(--mint);">✅ 匹配优势</div>' +
+    '<ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">' +
+    adv.map(function(a){return '<li style="display:flex;gap:8px;font-size:14px;color:var(--text-secondary);line-height:1.6;"><span style="color:var(--mint);font-weight:700;">✓</span>'+esc(a)+'</li>';}).join('') + '</ul>';
+
+  document.getElementById('disadvantagesCard').innerHTML =
+    '<div class="card-title" style="color:var(--coral);">⚠️ 匹配不足</div>' +
+    '<ul style="list-style:none;display:flex;flex-direction:column;gap:10px;">' +
+    dis.map(function(a){return '<li style="display:flex;gap:8px;font-size:14px;color:var(--text-secondary);line-height:1.6;"><span style="color:var(--coral);font-weight:700;">✗</span>'+esc(a)+'</li>';}).join('') + '</ul>';
+
+  if (deepDive.length > 0) {
+    document.getElementById('deepDiveCard').style.display = '';
+    document.getElementById('deepDiveCard').innerHTML =
+      '<div class="card-title"><div class="icon-circle icon-mint">🔎</div>面试深挖方向</div>' +
+      '<ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">' +
+      deepDive.map(function(d,i){ return '<li style="display:flex;gap:8px;font-size:14px;color:var(--text-secondary);line-height:1.6;"><span style="color:var(--mint);font-weight:700;">'+(i+1)+'.</span>'+esc(d)+'</li>'; }).join('') + '</ul>';
+  } else { document.getElementById('deepDiveCard').style.display = 'none'; }
+
+  var sugSections = [
+    {key:'structure',label:'结构层面优化'},{key:'content',label:'内容层面优化'},
+    {key:'keywords',label:'关键词优化'},{key:'quantification',label:'量化成果建议'}
+  ];
+  document.getElementById('suggestionsCard').innerHTML = sugSections.map(function(ss){
+    return '<div class="card" style="margin-bottom:10px;overflow:hidden;">' +
+      '<button onclick="var d=this.nextElementSibling;var o=d.style.maxHeight!==\'0px\';d.style.maxHeight=o?\'0\':\'400px\';d.style.paddingBottom=o?\'0\':\'16px\';this.querySelector(\'span\').style.transform=o?\'rotate(0deg)\':\'rotate(180deg)\';" ' +
+      'style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border:none;background:transparent;cursor:pointer;font-family:var(--font-heading);font-size:14px;font-weight:700;color:var(--text-main);transition:background 0.2s;" ' +
+      'onmouseenter="this.style.background=\'var(--bg-hover)\'" onmouseleave="this.style.background=\'transparent\'">' +
+      esc(ss.label)+'<span style="color:var(--text-muted);transition:transform 0.3s;font-size:18px;">▾</span></button>' +
+      '<div style="padding:0 20px;overflow:hidden;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);max-height:0;padding-bottom:0;">' +
+      '<p style="font-size:14px;color:var(--text-secondary);line-height:1.75;white-space:pre-wrap;">'+esc(sug[ss.key]||'暂无建议')+'</p></div></div>';
+  }).join('');
+
+  if (interviewPrep.length > 0) {
+    document.getElementById('interviewPrepCard').style.display = '';
+    document.getElementById('interviewPrepCard').innerHTML =
+      '<div class="card-title"><div class="icon-circle icon-gold">💡</div>面试准备建议</div>' +
+      '<ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">' +
+      interviewPrep.map(function(p,i){ return '<li style="display:flex;gap:8px;font-size:14px;color:var(--text-secondary);line-height:1.6;"><span style="color:var(--gold);font-weight:700;">'+(i+1)+'.</span>'+esc(p)+'</li>'; }).join('') + '</ul>';
+  } else { document.getElementById('interviewPrepCard').style.display = 'none'; }
+}
+ 
+function resetResume() {
+  analyzeResult = null;
+  resumeFile = null;
+  resumePreview = null;
+  document.getElementById('resume-upload-view').style.display = 'block';
+  document.getElementById('resume-result-view').style.display = 'none';
+  document.getElementById('uploadEmpty').style.display = 'block';
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.getElementById('uploadZone').classList.remove('has-file');
+  document.getElementById('fileInput').value = '';
+  document.getElementById('jobDesc').value = '';
+  document.getElementById('jdCharCount').textContent = '0 字';
+  document.getElementById('btnAnalyze').disabled = true;
+  updateInterviewAvailability();
+}
+ 
+function esc(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML.replace(/\n/g,'<br>');
+}
+ 
+/* ===== 模拟面试 ===== */
+function updateInterviewAvailability() {
+  var btn = document.getElementById('btnStartInterview');
+  var hint = document.getElementById('interviewHint');
+  if (analyzeResult && analyzeResult.analysis_id) {
+    btn.disabled = false;
+    hint.textContent = '已检测到简历分析结果，可以开始面试';
+  } else {
+    btn.disabled = true;
+    hint.textContent = '请先完成简历分析后再开始面试';
+  }
+}
+ 
+async function startInterview() {
+  if (!analyzeResult || !analyzeResult.analysis_id) return;
+  var count = parseInt(document.getElementById('questionCount').value);
+  document.getElementById('btnStartInterview').disabled = true;
+  document.getElementById('btnStartInterview').textContent = '生成题目中...';
+ 
+  try {
+    var res = await fetch('/api/interview/start', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        analysis_id: analyzeResult.analysis_id,
+        job_desc: document.getElementById('jobDesc').value,
+        question_count: count
+      })
+    });
+    var json = await res.json();
+    if (json.code === 0) {
+      interviewSessionId = json.data.session_id;
+      interviewQuestions = json.data.questions;
+      interviewAnswers = [];
+      currentQIndex = 0;
+      showInterviewQA();
+    } else {
+      alert('面试初始化失败: ' + (json.message || ''));
+    }
+  } catch (err) {
+    alert('网络请求失败: ' + err.message);
+  }
+  document.getElementById('btnStartInterview').disabled = false;
+  document.getElementById('btnStartInterview').textContent = '开始面试';
+}
+ 
+function showInterviewQA() {
+  document.getElementById('interview-start-view').style.display = 'none';
+  document.getElementById('interview-qa-view').style.display = 'block';
+  document.getElementById('interview-feedback-view').style.display = 'none';
+  interviewSubmitted = false;
+  interviewTimer = 180;
+  resetInterviewAnswerState();
+  lockCandidateAnswer('HR 正在提问，请听完后作答');
+  renderInterviewQuestion();
+}
+
+function resetInterviewAnswerState() {
+  document.getElementById('interviewAnswer').value = '';
+  liveInterviewFinalText = '';
+}
+ 
+function renderInterviewQuestion() {
+  var q = interviewQuestions[currentQIndex];
+  resetInterviewAnswerState();
+  document.getElementById('questionIndex').textContent = '第 '+(currentQIndex+1)+'/'+interviewQuestions.length+' 题';
+  document.getElementById('questionType').textContent = q.type;
+  document.getElementById('interviewProgress').style.width = ((currentQIndex)/interviewQuestions.length*100)+'%';
+  document.getElementById('interviewChat').innerHTML =
+    '<div class="chat-row">' +
+    '<div class="chat-avatar ai">🤖</div>' +
+    '<div class="chat-bubble-ai">'+esc(q.content)+'</div>' +
+    '</div>';
+  lockCandidateAnswer('HR 正在提问，请听完后作答');
+  speakInterviewer(q.content).then(function() { beginCandidateAnswer(); });
+}
+
+function speakInterviewer(text) {
+  if (!text) return Promise.resolve();
+  return fetch('/api/interview/speak', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ text: text })
+  }).then(function(res) {
+    if (!res.ok) throw new Error('tts failed');
+    return res.blob();
+  }).then(function(blob) {
+    return new Promise(function(resolve) {
+      var url = URL.createObjectURL(blob);
+      var audio = new Audio(url);
+      audio.onended = function() { URL.revokeObjectURL(url); resolve(); };
+      audio.onerror = function() { URL.revokeObjectURL(url); speakInterviewerFallback(text).then(resolve); };
+      audio.play().catch(function() { URL.revokeObjectURL(url); speakInterviewerFallback(text).then(resolve); });
+    });
+  }).catch(function() {
+    return speakInterviewerFallback(text);
+  });
+}
+
+function speakInterviewerFallback(text) {
+  if (!('speechSynthesis' in window) || !text) return Promise.resolve();
+  window.speechSynthesis.cancel();
+  return new Promise(function(resolve) {
+    var utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    utterance.onend = resolve;
+    utterance.onerror = resolve;
+    window.speechSynthesis.speak(utterance);
+  });
+}
+
+function appendInterviewBubble(role, text) {
+  var isUser = role === 'user';
+  document.getElementById('interviewChat').innerHTML +=
+    '<div class="chat-row '+(isUser?'user':'')+'">' +
+    '<div class="chat-avatar '+(isUser?'user':'ai')+'">'+(isUser?'👤':'🤖')+'</div>' +
+    '<div class="'+(isUser?'chat-bubble-user':'chat-bubble-ai')+'">'+esc(text)+'</div>' +
+    '</div>';
+}
+
+function applyAdaptiveNextQuestion(nextQuestion) {
+  if (!nextQuestion || currentQIndex >= interviewQuestions.length - 1) return false;
+  // 根据你的回答调整下一题
+  interviewQuestions[currentQIndex + 1] = nextQuestion;
+  return true;
+}
+
+function prepareNextAnswer() {
+  interviewSubmitted = false;
+  interviewTimer = 180;
+  resetInterviewAnswerState();
+  beginCandidateAnswer();
+}
+
+function lockCandidateAnswer(label) {
+  stopLiveInterviewTranscription();
+  clearInterval(interviewTimerInterval);
+  document.getElementById('interviewAnswer').disabled = true;
+  document.getElementById('btnSubmitAnswer').disabled = true;
+  var recordBtn = document.getElementById('btnInterviewRecord');
+  if (recordBtn) recordBtn.disabled = true;
+  var labelEl = document.getElementById('btnInterviewRecordLabel');
+  if (labelEl) labelEl.textContent = label || '请听 HR 提问';
+}
+
+function beginCandidateAnswer() {
+  interviewSubmitted = false;
+  document.getElementById('interviewAnswer').disabled = false;
+  document.getElementById('btnSubmitAnswer').disabled = false;
+  var recordBtn = document.getElementById('btnInterviewRecord');
+  if (recordBtn) recordBtn.disabled = false;
+  var labelEl = document.getElementById('btnInterviewRecordLabel');
+  if (labelEl) labelEl.textContent = '实时识别中';
+  document.getElementById('interviewAnswer').focus();
+  startInterviewTimer();
+  startLiveInterviewTranscription();
+}
+
+async function toggleInterviewVoiceInput() {
+  if (document.getElementById('interviewAnswer').disabled) return;
+  if (interviewRecording) {
+    stopInterviewRecording();
+    return;
+  }
+  if (liveInterviewListening) {
+    document.getElementById('interviewAnswer').focus();
+    return;
+  }
+  await startInterviewRecording();
+}
+
+function startLiveInterviewTranscription() {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    var labelEl = document.getElementById('btnInterviewRecordLabel');
+    if (labelEl) labelEl.textContent = '点击录音识别';
+    return;
+  }
+  stopLiveInterviewTranscription();
+  var currentText = document.getElementById('interviewAnswer').value.trim();
+  if (currentText && currentText !== liveInterviewFinalText) {
+    liveInterviewFinalText = currentText;
+  } else if (!currentText) {
+    liveInterviewFinalText = '';
+  }
+  liveInterviewRecognition = new SpeechRecognition();
+  var recognition = liveInterviewRecognition;
+  recognition.lang = 'zh-CN';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.onstart = function() {
+    liveInterviewListening = true;
+    var btn = document.getElementById('btnInterviewRecord');
+    if (btn) btn.classList.add('recording');
+    var labelEl = document.getElementById('btnInterviewRecordLabel');
+    if (labelEl) labelEl.textContent = '实时识别中';
+  };
+  recognition.onresult = function(event) {
+    var interimText = '';
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      var transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        liveInterviewFinalText = (liveInterviewFinalText + ' ' + transcript).trim();
+      } else {
+        interimText += transcript;
+      }
+    }
+    document.getElementById('interviewAnswer').value = (liveInterviewFinalText + ' ' + interimText).trim();
+  };
+  recognition.onerror = function() {
+    stopLiveInterviewTranscription();
+    var labelEl = document.getElementById('btnInterviewRecordLabel');
+    if (labelEl) labelEl.textContent = '点击录音识别';
+  };
+  recognition.onend = function() {
+    liveInterviewListening = false;
+    var btn = document.getElementById('btnInterviewRecord');
+    if (btn) btn.classList.remove('recording');
+    if (!interviewSubmitted && !document.getElementById('interviewAnswer').disabled) {
+      try {
+        recognition.start();
+      } catch (e) {
+        console.warn('实时识别自动重启失败:', e);
+      }
+    }
+  };
+  try {
+    recognition.start();
+  } catch (e) {
+    stopLiveInterviewTranscription();
+    var labelEl = document.getElementById('btnInterviewRecordLabel');
+    if (labelEl) labelEl.textContent = '点击录音识别';
+  }
+}
+
+function stopLiveInterviewTranscription() {
+  if (liveInterviewRecognition) {
+    liveInterviewRecognition.onend = null;
+    try {
+      liveInterviewRecognition.stop();
+    } catch (e) {
+      console.warn('停止实时识别失败:', e);
+    }
+    liveInterviewRecognition = null;
+  }
+  liveInterviewListening = false;
+  var btn = document.getElementById('btnInterviewRecord');
+  if (btn) btn.classList.remove('recording');
+}
+
+function startInterviewTimer() {
+  clearInterval(interviewTimerInterval);
+  interviewTimer = 180;
+  updateInterviewTimerDisplay();
+  interviewTimerInterval = setInterval(function() {
+    if (interviewSubmitted) return;
+    interviewTimer--;
+    updateInterviewTimerDisplay();
+    if (interviewTimer <= 0) {
+      clearInterval(interviewTimerInterval);
+      var labelEl = document.getElementById('btnInterviewRecordLabel');
+      if (labelEl) labelEl.textContent = '请整理后点击发送';
+    }
+  }, 1000);
+}
+ 
+function updateInterviewTimerDisplay() {
+  var m = Math.floor(interviewTimer/60);
+  var s = interviewTimer%60;
+  var timerEl = document.getElementById('interviewTimer');
+  timerEl.textContent = m+':'+String(s).padStart(2,'0');
+  timerEl.className = 'timer ' + (interviewTimer <= 30 ? 'warning' : 'normal');
+}
+ 
+async function submitInterviewAnswer() {
+  var answer = document.getElementById('interviewAnswer').value.trim();
+  if (interviewSubmitted) return;
+  interviewSubmitted = true;
+  stopLiveInterviewTranscription();
+  clearInterval(interviewTimerInterval);
+  document.getElementById('interviewAnswer').disabled = true;
+  document.getElementById('btnSubmitAnswer').disabled = true;
+  var recordBtn = document.getElementById('btnInterviewRecord');
+  if (recordBtn) recordBtn.disabled = true;
+ 
+  var q = interviewQuestions[currentQIndex];
+  interviewAnswers.push({ question_id: q.id, answer: answer });
+ 
+  if (answer) {
+    appendInterviewBubble('user', answer);
+  }
+ 
+  try {
+    var payload = { session_id: interviewSessionId, question_id: q.id, answer: answer };
+    var res = await fetch('/api/interview/answer', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    var json = await res.json();
+    if (json.code === 0 && json.data && json.data.next_question) {
+      applyAdaptiveNextQuestion(json.data.next_question);
+    }
+  } catch (e) {
+    console.error('提交面试答案失败:', e);
+  }
+ 
+  if (currentQIndex >= interviewQuestions.length - 1) {
+    await getInterviewFeedback();
+  } else {
+    currentQIndex++;
+    renderInterviewQuestion();
+  }
+}
+
+async function startInterviewRecording() {
+  try {
+    var stream = await navigator.mediaDevices.getUserMedia({
+      audio: { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true }
+    });
+    var mimeType = 'audio/webm;codecs=opus';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'audio/webm';
+    if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'audio/mp4';
+    interviewMediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+    interviewAudioChunks = [];
+    interviewMediaRecorder.ondataavailable = function(e) { if (e.data.size > 0) interviewAudioChunks.push(e.data); };
+    interviewMediaRecorder.onstop = async function() {
+      stream.getTracks().forEach(function(t){ t.stop(); });
+      var blob = new Blob(interviewAudioChunks, { type: mimeType });
+      await transcribeInterviewVoice(blob);
+    };
+    interviewMediaRecorder.start();
+    interviewRecording = true;
+    document.getElementById('btnInterviewRecord').classList.add('recording');
+    document.getElementById('btnInterviewRecordLabel').textContent = '结束回答';
+    var timerEl = document.getElementById('interviewVoiceTimer');
+    timerEl.style.display = 'inline';
+    var startTime = Date.now();
+    interviewVoiceTimerInterval = setInterval(function() {
+      var elapsed = Math.floor((Date.now()-startTime)/1000);
+      timerEl.textContent = Math.floor(elapsed/60)+':'+String(elapsed%60).padStart(2,'0');
+      if (elapsed >= 60) stopInterviewRecording();
+    }, 200);
+  } catch (err) {
+    alert('无法访问麦克风：' + err.message);
+  }
+}
+
+function stopInterviewRecording() {
+  if (!interviewRecording) return;
+  interviewRecording = false;
+  clearInterval(interviewVoiceTimerInterval);
+  document.getElementById('btnInterviewRecord').classList.remove('recording');
+  document.getElementById('btnInterviewRecordLabel').textContent = '识别中...';
+  document.getElementById('interviewVoiceTimer').style.display = 'none';
+  document.getElementById('btnInterviewRecord').disabled = true;
+  if (interviewMediaRecorder && interviewMediaRecorder.state !== 'inactive') interviewMediaRecorder.stop();
+}
+
+async function transcribeInterviewVoice(blob) {
+  var formData = new FormData();
+  formData.append('audio', blob, 'interview.webm');
+  formData.append('mode', 'transcribe');
+  try {
+    var res = await fetch('/api/voice-chat', { method: 'POST', body: formData });
+    var json = await res.json();
+    if (json.code === 0 && json.question) {
+      document.getElementById('interviewAnswer').value = json.question;
+      document.getElementById('interviewAnswer').focus();
+      appendInterviewBubble('ai', '我已经识别出你的回答文字，你可以确认后发送。');
+    } else {
+      alert('未识别到语音内容：' + (json.message || '请重试'));
+    }
+  } catch (err) {
+    alert('语音识别请求失败：' + err.message);
+  }
+  document.getElementById('btnInterviewRecord').disabled = false;
+  document.getElementById('btnInterviewRecordLabel').textContent = '开始回答';
+}
+ 
+async function getInterviewFeedback() {
+  document.getElementById('interview-qa-view').style.display = 'none';
+  document.getElementById('interview-feedback-view').style.display = 'block';
+  document.getElementById('interviewChat').innerHTML +=
+    '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">正在生成评估报告...</div>';
+ 
+  try {
+    var res = await fetch('/api/interview/feedback', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ session_id: interviewSessionId })
+    });
+    var json = await res.json();
+    if (json.code === 0) {
+      renderFeedback(json.data);
+    } else {
+      document.getElementById('interview-feedback-view').innerHTML =
+        '<p style="color:var(--coral);text-align:center;">评估失败: '+(json.message||'')+'</p>';
+    }
+  } catch (err) {
+    document.getElementById('interview-feedback-view').innerHTML =
+      '<p style="color:var(--coral);text-align:center;">网络请求失败</p>';
+  }
+}
+ 
+function renderFeedback(data) {
+  var sc = data.total_score >= 70 ? 'high' : data.total_score >= 40 ? 'medium' : 'low';
+  document.getElementById('feedbackScoreCircle').innerHTML =
+    '<div class="score-circle '+sc+'">' +
+    '<span class="score-num">'+data.total_score+'</span>' +
+    '<span class="score-label">综合得分</span></div>';
+
+  var dims = data.dimension_scores || {};
+  if (Object.keys(dims).length > 0) {
+    var dimLabels = {relevance:'相关性', structure:'结构性', concreteness:'具体性', job_fit:'岗位匹配', expression:'表达清晰'};
+    var maxDim = 20;
+    document.getElementById('feedbackScoreCircle').innerHTML +=
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;">' +
+      Object.keys(dimLabels).map(function(k){
+        var val = dims[k] || 0;
+        var pct = Math.round(val/maxDim*100);
+        var clr = pct >= 70 ? 'var(--mint)' : pct >= 40 ? 'var(--gold)' : 'var(--coral)';
+        return '<div style="text-align:center;min-width:56px;">' +
+          '<div style="font-size:16px;font-weight:800;color:'+clr+';">'+val+'</div>' +
+          '<div style="font-size:10px;color:var(--text-muted);">'+dimLabels[k]+'</div></div>';
+      }).join('') + '</div>';
+  }
+
+  document.getElementById('feedbackSummary').innerHTML =
+    '<div class="card-title"><div class="icon-circle icon-gold">⭐</div>总体评价</div>' +
+    '<p style="font-size:14px;color:var(--text-secondary);line-height:1.7;">'+esc(data.summary)+'</p>';
+
+  var reviewsHtml = (data.reviews||[]).map(function(r,i){
+    var s = r.scores || {};
+    var scoreBar = function(label, key){
+      var val = s[key] || 0;
+      var pct = Math.round(val/20*100);
+      var barClr = pct >= 70 ? 'var(--mint)' : pct >= 40 ? 'var(--gold)' : 'var(--coral)';
+      return '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">' +
+        '<span style="font-size:10px;color:var(--text-muted);width:36px;text-align:right;">'+label+'</span>' +
+        '<div style="flex:1;height:6px;background:var(--bg-elevated);border-radius:3px;overflow:hidden;">' +
+        '<div style="height:100%;width:'+pct+'%;background:'+barClr+';border-radius:3px;"></div></div>' +
+        '<span style="font-size:10px;color:var(--text-muted);width:20px;">'+val+'</span></div>';
+    };
+    var riskHtml = (r.risk_flags||[]).length > 0
+      ? '<div style="margin-top:8px;padding:8px 12px;background:var(--coral-glow);border-radius:var(--radius-sm);">' +
+        '<p style="font-size:11px;color:var(--coral);font-weight:700;margin-bottom:4px;">🚩 风险信号</p>' +
+        r.risk_flags.map(function(f){ return '<p style="font-size:12px;color:var(--text-secondary);">'+esc(f)+'</p>'; }).join('') + '</div>'
+      : '';
+    var betterHtml = r.better_example
+      ? '<div style="margin-top:8px;padding:10px 14px;background:var(--mint-glow);border-radius:var(--radius-sm);border-left:3px solid var(--mint);">' +
+        '<p style="font-size:11px;color:var(--mint);font-weight:700;margin-bottom:4px;">💡 更优回答示范</p>' +
+        '<p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">'+esc(r.better_example)+'</p></div>'
+      : '';
+    return '<div class="card" style="margin-bottom:12px;">' +
+      '<span class="tag tag-coral" style="margin-bottom:10px;">第 '+(i+1)+' 题 · '+(r.total||0)+'分</span>' +
+      '<p style="font-size:14px;font-weight:700;color:var(--text-main);margin:10px 0;line-height:1.6;">'+esc(r.question)+'</p>' +
+      '<div style="padding-left:14px;border-left:3px solid var(--mint);margin-bottom:12px;">' +
+      '<p style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">你的回答</p>' +
+      '<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">'+esc(r.answer||'(未回答)')+'</p></div>' +
+      '<div style="margin-bottom:10px;">'+scoreBar('相关性','relevance')+scoreBar('结构性','structure')+scoreBar('具体性','concreteness')+scoreBar('岗位匹配','job_fit')+scoreBar('表达','expression')+'</div>' +
+      '<div style="padding-left:14px;border-left:3px solid var(--coral);margin-bottom:8px;">' +
+      '<p style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">AI 点评</p>' +
+      '<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">'+esc(r.comment)+'</p></div>' +
+      riskHtml + betterHtml + '</div>';
+  }).join('');
+  document.getElementById('feedbackReviews').innerHTML = reviewsHtml;
+}
+ 
+function resetInterview() {
+  interviewSessionId = '';
+  interviewQuestions = [];
+  interviewAnswers = [];
+  currentQIndex = 0;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  stopLiveInterviewTranscription();
+  clearInterval(interviewTimerInterval);
+  document.getElementById('interview-start-view').style.display = 'block';
+  document.getElementById('interview-qa-view').style.display = 'none';
+  document.getElementById('interview-feedback-view').style.display = 'none';
+  updateInterviewAvailability();
+}
+ 
+/* ===== 语音相关样式 ===== */
+
+</script>
+ 
+</body>
+</html>

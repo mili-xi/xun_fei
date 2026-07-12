@@ -1,0 +1,5 @@
+runtime/ffmpeg.exe filter=lfs diff=lfs merge=lfs -text
+dist/*.exe filter=lfs diff=lfs merge=lfs -text
+dist/*.zip filter=lfs diff=lfs merge=lfs -text
+dist/win-unpacked/讯飞求职助手.exe filter=lfs diff=lfs merge=lfs -text
+dist/win-unpacked/resources/app-resources/runtime/ffmpeg.exe filter=lfs diff=lfs merge=lfs -text

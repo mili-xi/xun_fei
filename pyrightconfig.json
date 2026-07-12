@@ -1,0 +1,17 @@
+{
+  "typeCheckingMode": "basic",
+  "reportMissingImports": false,
+  "reportMissingTypeStubs": false,
+  "reportGeneralTypeIssues": "warning",
+  "reportOptionalMemberAccess": "none",
+  "reportOptionalSubscript": "none",
+  "reportPrivateImportUsage": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnknownParameterType": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownArgumentType": "none",
+  "reportCallIssue": "none",
+  "reportAttributeAccessIssue": "warning",
+  "pythonVersion": "3.10",
+  "pythonPlatform": "Windows"
+}

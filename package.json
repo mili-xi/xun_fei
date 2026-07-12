@@ -1,0 +1,73 @@
+{
+  "name": "xunfei-job-assistant",
+  "version": "1.0.1",
+  "description": "讯飞求职智能助手桌面版",
+  "main": "electron/main.js",
+  "author": "xunfei-team",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test:electron": "node --test electron/*.test.js",
+    "pack": "electron-builder --win dir",
+    "dist": "node electron/buildInstaller.js",
+    "dist:zip": "electron-builder --win zip"
+  },
+  "devDependencies": {
+    "electron": "^34.5.8",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.xunfei.jobassistant",
+    "productName": "讯飞求职助手",
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**/*.js",
+      "!electron/*.test.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "前端",
+        "to": "app-resources/frontend"
+      },
+      {
+        "from": "后端",
+        "to": "app-resources/backend"
+      },
+      {
+        "from": "runtime",
+        "to": "app-resources/runtime"
+      },
+      {
+        "from": ".env",
+        "to": "app-resources/.env"
+      },
+      {
+        "from": "requirements.txt",
+        "to": "app-resources/requirements.txt"
+      }
+    ],
+    "win": {
+      "icon": "build/app-icon.ico",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "build/app-icon.ico",
+      "uninstallerIcon": "build/app-icon.ico",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerHeaderIcon": "build/app-icon.ico",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "shortcutName": "讯飞求职助手",
+      "uninstallerSidebar": "build/uninstallerSidebar.bmp"
+    }
+  }
+}

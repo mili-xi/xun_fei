@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+_tmp_convert.pcm
+reply_*.mp3
+chat_report.md
+server.*.log
+node_modules/
+*.msi
