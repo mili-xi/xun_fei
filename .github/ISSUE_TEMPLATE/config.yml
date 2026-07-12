@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/mili-xi/xun_fei/security/advisories/new
+    about: Report vulnerabilities privately. Do not disclose credentials or personal data in public issues.
+  - name: Impact evidence policy
+    url: https://github.com/mili-xi/xun_fei/blob/main/docs/impact.md
+    about: Learn how public adoption and release evidence is recorded.

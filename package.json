@@ -1,14 +1,18 @@
 {
   "name": "xunfei-job-assistant",
-  "version": "1.0.1",
-  "description": "讯飞求职智能助手桌面版",
+  "version": "1.1.0",
+  "description": "Local-first Windows job-search assistant for Chinese-speaking users",
   "main": "electron/main.js",
-  "author": "xunfei-team",
-  "license": "UNLICENSED",
+  "author": "mili-xi and contributors",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "start": "electron .",
+    "test": "npm run test:electron",
     "test:electron": "node --test electron/*.test.js",
+    "test:python": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -v",
+    "verify:packaging-context": "node electron/packagingPolicy.js",
+    "verify": "npm run test:electron && npm run verify:packaging-context",
     "pack": "electron-builder --win dir",
     "dist": "node electron/buildInstaller.js",
     "dist:zip": "electron-builder --win zip"
@@ -19,7 +23,7 @@
   },
   "build": {
     "appId": "com.xunfei.jobassistant",
-    "productName": "讯飞求职助手",
+    "productName": "Xunfei Job Assistant",
     "electronDist": "node_modules/electron/dist",
     "directories": {
       "output": "dist",
@@ -27,6 +31,7 @@
     },
     "files": [
       "electron/**/*.js",
+      "electron/settings/**/*",
       "!electron/*.test.js",
       "package.json"
     ],
@@ -44,17 +49,16 @@
         "to": "app-resources/runtime"
       },
       {
-        "from": ".env",
-        "to": "app-resources/.env"
-      },
-      {
         "from": "requirements.txt",
         "to": "app-resources/requirements.txt"
       }
     ],
     "win": {
       "icon": "build/app-icon.ico",
-      "target": "nsis"
+      "target": [
+        "nsis",
+        "zip"
+      ]
     },
     "nsis": {
       "oneClick": false,
@@ -66,7 +70,7 @@
       "installerHeader": "build/installerHeader.bmp",
       "installerHeaderIcon": "build/app-icon.ico",
       "installerSidebar": "build/installerSidebar.bmp",
-      "shortcutName": "讯飞求职助手",
+      "shortcutName": "Xunfei Job Assistant",
       "uninstallerSidebar": "build/uninstallerSidebar.bmp"
     }
   }
