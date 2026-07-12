@@ -100,41 +100,7 @@ class BackendConfigImportTests(unittest.TestCase):
             sys.modules.pop("config", None)
             sys.modules.pop("llm_client", None)
 
-    def test_config_loads_project_env_file(self):
-        env_file = ROOT / ".env"
-        original = env_file.read_text(encoding="utf-8") if env_file.exists() else None
-        env_file.write_text("IFLYTEK_APP_ID=from-env-file\n", encoding="utf-8")
-        os.environ.pop("IFLYTEK_APP_ID", None)
-        sys.modules.pop("config", None)
-
-        try:
-            config = importlib.import_module("config")
-            self.assertEqual(config.IFLYTEK_APP_ID, "from-env-file")
-        finally:
-            sys.modules.pop("config", None)
-            if original is None:
-                env_file.unlink(missing_ok=True)
-            else:
-                env_file.write_text(original, encoding="utf-8")
-
-    def test_config_loads_project_env_file_with_utf8_bom(self):
-        env_file = ROOT / ".env"
-        original = env_file.read_bytes() if env_file.exists() else None
-        env_file.write_bytes("IFLYTEK_APP_ID=from-bom-env-file\n".encode("utf-8-sig"))
-        os.environ.pop("IFLYTEK_APP_ID", None)
-        sys.modules.pop("config", None)
-
-        try:
-            config = importlib.import_module("config")
-            self.assertEqual(config.IFLYTEK_APP_ID, "from-bom-env-file")
-        finally:
-            sys.modules.pop("config", None)
-            if original is None:
-                env_file.unlink(missing_ok=True)
-            else:
-                env_file.write_bytes(original)
-
-    def test_config_reports_env_file_presence(self):
+    def test_settings_ignore_repository_env_files(self):
         env_file = ROOT / ".env"
         original = env_file.read_text(encoding="utf-8") if env_file.exists() else None
         env_file.write_text("IFLYTEK_APP_ID=from-env-file\n", encoding="utf-8")
@@ -142,13 +108,38 @@ class BackendConfigImportTests(unittest.TestCase):
 
         try:
             config = importlib.import_module("config")
-            self.assertTrue(config.has_env_file())
+            settings = config.load_settings({"IFLYTEK_APP_ID": "from-mapping"})
+
+            self.assertEqual(settings.iflytek_app_id, "from-mapping")
+            self.assertEqual(config.load_settings({}).iflytek_app_id, "")
         finally:
             sys.modules.pop("config", None)
             if original is None:
                 env_file.unlink(missing_ok=True)
             else:
                 env_file.write_text(original, encoding="utf-8")
+
+    def test_settings_reject_insecure_service_urls(self):
+        config = importlib.import_module("config")
+
+        with self.assertRaisesRegex(config.ConfigurationError, "OCR_URL"):
+            config.load_settings({"OCR_URL": "http://insecure.invalid"})
+
+    def test_settings_aliases_prefer_xfyun_values(self):
+        config = importlib.import_module("config")
+
+        settings = config.load_settings({
+            "IFLYTEK_APP_ID": "canonical",
+            "IFLYTEK_API_KEY": "canonical-key",
+            "IFLYTEK_API_SECRET": "canonical-secret",
+            "XFYUN_APPID": "voice-alias",
+            "XFYUN_API_KEY": "voice-key",
+            "XFYUN_API_SECRET": "voice-secret",
+        })
+
+        self.assertEqual(settings.xfyun_app_id, "voice-alias")
+        self.assertEqual(settings.xfyun_api_key, "voice-key")
+        self.assertEqual(settings.xfyun_api_secret, "voice-secret")
 
     def test_config_reports_bundled_ffmpeg_when_present(self):
         sys.modules.pop("config", None)

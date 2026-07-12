@@ -1,0 +1,12 @@
+title = "xun_fei secret scanning configuration"
+
+[allowlist]
+description = "Ignore local dependency and build outputs that are already excluded from source control."
+paths = [
+  '''(^|/)\.venv/''',
+  '''(^|/)venv/''',
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''(^|/)runtime/''',
+  '''(^|/)coverage/''',
+]
