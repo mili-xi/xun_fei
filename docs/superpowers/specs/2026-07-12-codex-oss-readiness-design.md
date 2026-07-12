@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-12
 **Repository:** `mili-xi/xun_fei`
-**Status:** Draft for written review
+**Status:** Approved
 
 ## Context
 
