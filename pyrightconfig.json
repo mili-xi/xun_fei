@@ -1,4 +1,14 @@
 {
+  "include": [
+    "后端",
+    "tests"
+  ],
+  "exclude": [
+    ".venv",
+    "node_modules",
+    "dist",
+    "runtime"
+  ],
   "typeCheckingMode": "basic",
   "reportMissingImports": false,
   "reportMissingTypeStubs": false,
@@ -12,6 +22,6 @@
   "reportUnknownArgumentType": "none",
   "reportCallIssue": "none",
   "reportAttributeAccessIssue": "warning",
-  "pythonVersion": "3.10",
+  "pythonVersion": "3.13",
   "pythonPlatform": "Windows"
 }

@@ -1,0 +1,21 @@
+name: Dependency Review
+
+on:
+  pull_request: {}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  review:
+    name: Review dependency changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+
+      - name: Review dependency diff
+        uses: actions/dependency-review-action@da6b129d277471d01428781accece1bd831a8b0d
+        with:
+          fail-on-severity: high

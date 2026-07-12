@@ -1,0 +1,13 @@
+[tool.ruff]
+target-version = "py313"
+exclude = [
+  ".git",
+  ".venv",
+  "node_modules",
+  "dist",
+  "runtime",
+]
+
+[tool.ruff.lint]
+select = ["E9", "F"]
+

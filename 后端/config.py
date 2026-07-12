@@ -3,6 +3,7 @@
 Configuration comes from the process environment or an explicit mapping passed
 to load_settings(). Repository .env files are intentionally not loaded.
 """
+from collections.abc import Mapping
 from dataclasses import dataclass
 import os
 import shutil
@@ -41,27 +42,27 @@ class Settings:
     ffmpeg_path: str
 
     @property
-    def spark_configured(self):
+    def spark_configured(self) -> bool:
         return bool(self.iflytek_spark_api_password)
 
     @property
-    def ocr_configured(self):
+    def ocr_configured(self) -> bool:
         return bool(self.iflytek_app_id and self.iflytek_api_key and self.iflytek_api_secret)
 
     @property
-    def voice_configured(self):
+    def voice_configured(self) -> bool:
         return bool(self.xfyun_app_id and self.xfyun_api_key and self.xfyun_api_secret)
 
-    def missing(self, *names):
+    def missing(self, *names: str) -> list[str]:
         return [name for name in names if not getattr(self, _setting_attr(name), "")]
 
-    def require(self, *names):
+    def require(self, *names: str) -> None:
         missing = self.missing(*names)
         if missing:
             raise MissingConfigurationError("Missing configuration: " + ", ".join(missing))
 
 
-def _setting_attr(name):
+def _setting_attr(name: str) -> str:
     mapping = {
         "IFLYTEK_APP_ID": "iflytek_app_id",
         "IFLYTEK_API_KEY": "iflytek_api_key",
@@ -74,12 +75,18 @@ def _setting_attr(name):
     return mapping.get(name, name.lower())
 
 
-def _clean(mapping, name, default=""):
+def _clean(mapping: Mapping[str, object], name: str, default: object = "") -> str:
     value = mapping.get(name, default)
     return "" if value is None else str(value).strip()
 
 
-def _positive_int(mapping, name, default, minimum=1, maximum=300):
+def _positive_int(
+    mapping: Mapping[str, object],
+    name: str,
+    default: int,
+    minimum: int = 1,
+    maximum: int = 300,
+) -> int:
     raw = _clean(mapping, name, str(default))
     try:
         value = int(raw)
@@ -90,7 +97,12 @@ def _positive_int(mapping, name, default, minimum=1, maximum=300):
     return value
 
 
-def _secure_url(mapping, name, default, allowed_schemes):
+def _secure_url(
+    mapping: Mapping[str, object],
+    name: str,
+    default: str,
+    allowed_schemes: set[str],
+) -> str:
     value = _clean(mapping, name, default)
     parsed = urlparse(value)
     if parsed.scheme not in allowed_schemes or not parsed.netloc:
@@ -99,7 +111,7 @@ def _secure_url(mapping, name, default, allowed_schemes):
     return value
 
 
-def _default_ffmpeg_path(mapping):
+def _default_ffmpeg_path(mapping: Mapping[str, object]) -> str:
     configured = _clean(mapping, "FFMPEG_PATH")
     if configured:
         return configured
@@ -109,7 +121,7 @@ def _default_ffmpeg_path(mapping):
     return "ffmpeg"
 
 
-def load_settings(environ=None):
+def load_settings(environ: Mapping[str, object] | None = None) -> Settings:
     mapping = dict(os.environ if environ is None else environ)
     iflytek_app_id = _clean(mapping, "IFLYTEK_APP_ID")
     iflytek_api_key = _clean(mapping, "IFLYTEK_API_KEY")
@@ -156,17 +168,17 @@ IAT_URL = SETTINGS.iat_url
 SMART_TTS_URL = SETTINGS.smart_tts_url
 
 
-def missing_required_settings(*names):
+def missing_required_settings(*names: str) -> list[str]:
     """Return required setting names whose values are blank."""
     return [name for name in names if not globals().get(name)]
 
 
-def has_env_file():
+def has_env_file() -> bool:
     """Runtime .env files are intentionally ignored."""
     return False
 
 
-def ffmpeg_is_available():
+def ffmpeg_is_available() -> bool:
     """Return True when the configured ffmpeg binary can be resolved."""
     ffmpeg_path = SETTINGS.ffmpeg_path.strip()
     if not ffmpeg_path:

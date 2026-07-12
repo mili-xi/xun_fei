@@ -12,14 +12,22 @@
     "test:electron": "node --test electron/*.test.js",
     "test:python": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -v",
     "verify:packaging-context": "node electron/packagingPolicy.js",
-    "verify": "npm run test:electron && npm run verify:packaging-context",
+    "lint": "npm run lint:python && npm run lint:types",
+    "lint:python": ".\\.venv\\Scripts\\python.exe -m ruff check .",
+    "lint:types": "pyright",
+    "verify": "npm run test:electron && npm run test:python && npm run lint && npm run verify:packaging-context",
     "pack": "electron-builder --win dir",
     "dist": "node electron/buildInstaller.js",
     "dist:zip": "electron-builder --win zip"
   },
   "devDependencies": {
+    "@cyclonedx/cyclonedx-npm": "6.0.0",
+    "@electron/asar": "4.2.0",
+    "7zip-bin": "5.2.0",
     "electron": "43.1.0",
-    "electron-builder": "26.15.3"
+    "electron-builder": "26.15.3",
+    "pyright": "1.1.411",
+    "yaml": "2.9.0"
   },
   "build": {
     "appId": "com.xunfei.jobassistant",

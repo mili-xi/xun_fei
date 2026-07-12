@@ -164,11 +164,16 @@ function waitForHealth({
   launchToken,
 }) {
   const deadline = Date.now() + timeoutMs;
+  const requestTimeoutMs = Math.min(Math.max(intervalMs, 1000), timeoutMs);
+  let settled = false;
 
   return new Promise((resolve, reject) => {
     function check() {
+      if (settled) {
+        return;
+      }
       const request = http.get(
-        buildHealthRequestOptions({ port, timeoutMs: Math.min(intervalMs, 1000), launchToken }),
+        buildHealthRequestOptions({ port, timeoutMs: requestTimeoutMs, launchToken }),
         (response) => {
           let body = '';
           response.setEncoding('utf8');
@@ -176,7 +181,11 @@ function waitForHealth({
             body += chunk;
           });
           response.on('end', () => {
+            if (settled) {
+              return;
+            }
             if (response.statusCode === 200 && isHealthyPayload(body)) {
+              settled = true;
               resolve();
               return;
             }
@@ -192,7 +201,11 @@ function waitForHealth({
     }
 
     function retry() {
+      if (settled) {
+        return;
+      }
       if (Date.now() >= deadline) {
+        settled = true;
         reject(new Error(`Backend health check timed out on port ${port}`));
         return;
       }
