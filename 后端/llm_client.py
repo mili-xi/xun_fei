@@ -6,6 +6,7 @@ import bootstrap
 import json
 import os
 import requests
+from backend_errors import UpstreamServiceError
 from config import IFLYTEK_SPARK_API_PASSWORD, IFLYTEK_SPARK_HTTP_TIMEOUT, SPARK_URL
 
 
@@ -38,18 +39,24 @@ class SparkLLMClient:
             "stream": stream,
         }
 
-        response = requests.post(self.url, headers=headers, json=payload, timeout=self.timeout)
+        response = requests.post(self.url, headers=headers, json=payload, timeout=self.timeout, verify=True)
 
         if response.status_code != 200:
-            raise RuntimeError(
-                f"星火大模型调用失败: HTTP {response.status_code}, {response.text}"
+            raise UpstreamServiceError(
+                "spark",
+                "Spark service request failed",
+                status_code=response.status_code,
             )
 
-        data = response.json()
+        try:
+            data = response.json()
+        except ValueError as exc:
+            raise UpstreamServiceError("spark", "Spark service returned invalid JSON") from exc
 
         if "code" in data and data.get("code") != 0:
-            raise RuntimeError(
-                f"星火大模型返回错误: code={data.get('code')}, message={data.get('message')}"
+            raise UpstreamServiceError(
+                "spark",
+                f"Spark service returned error code {data.get('code')}",
             )
 
         choices = data.get("choices", [])

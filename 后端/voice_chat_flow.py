@@ -6,6 +6,7 @@ import hmac
 import json
 import logging
 import os
+import ssl
 import subprocess
 import threading
 import time
@@ -35,6 +36,12 @@ STATUS_CONTINUE_FRAME = 1
 STATUS_LAST_FRAME = 2
 WS_TIMEOUT_SECONDS = 20
 LOGGER = logging.getLogger(__name__)
+
+
+SECURE_WEBSOCKET_OPTIONS = {
+    "cert_reqs": ssl.CERT_REQUIRED,
+    "check_hostname": True,
+}
 
 
 def load_xfyun_credentials():
@@ -234,7 +241,7 @@ def recognize_pcm(audio_file):
             on_close=on_close,
             on_open=on_open,
         )
-        ws.run_forever()
+        ws.run_forever(sslopt=SECURE_WEBSOCKET_OPTIONS)
         _wait_for_ws_completion(done, WS_TIMEOUT_SECONDS, "IAT")
 
         if errors:
@@ -334,7 +341,7 @@ def synthesize_mp3(text, output_file):
         on_close=on_close,
         on_open=on_open,
     )
-    ws.run_forever()
+    ws.run_forever(sslopt=SECURE_WEBSOCKET_OPTIONS)
     _wait_for_ws_completion(done, WS_TIMEOUT_SECONDS, "TTS")
 
     if errors:
@@ -408,7 +415,7 @@ def spark_chat(messages, temperature=0.5, max_tokens=1024):
     ws_url = assemble_ws_auth_url(SPARK_URL, "GET", api_key, api_secret)
     ws = websocket.WebSocketApp(ws_url, on_message=on_message, on_error=on_error, on_close=on_close)
     ws.on_open = on_open
-    ws.run_forever()
+    ws.run_forever(sslopt=SECURE_WEBSOCKET_OPTIONS)
     _wait_for_ws_completion(done, WS_TIMEOUT_SECONDS, "Spark")
 
     if errors:

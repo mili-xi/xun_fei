@@ -56,11 +56,13 @@ def create_app(test_config=None):
 
     @app.get("/api/health")
     def health():
+        launch_token = os.getenv("XUNFEI_LAUNCH_TOKEN", "")
+        if launch_token and request.headers.get("X-Xunfei-Launch-Token") != launch_token:
+            return error_response("unauthorized health check", 401)
         return ok_response(
             data={
                 "status": "ok",
                 "frontend_dir_exists": FRONTEND_DIR.exists(),
-                "env_file_present": config.has_env_file(),
                 "ffmpeg_available": config.ffmpeg_is_available(),
                 "spark_configured": bool(config.IFLYTEK_SPARK_API_PASSWORD),
                 "ocr_configured": bool(config.IFLYTEK_APP_ID and config.IFLYTEK_API_KEY and config.IFLYTEK_API_SECRET),

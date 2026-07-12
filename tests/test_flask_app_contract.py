@@ -64,7 +64,7 @@ class FlaskAppContractTests(unittest.TestCase):
         self.assertEqual(payload["code"], 0)
         data = payload["data"]
         self.assertEqual(data["status"], "ok")
-        self.assertIn("env_file_present", data)
+        self.assertNotIn("env_file_present", data)
         self.assertIn("ffmpeg_available", data)
         self.assertTrue(data["spark_configured"])
         self.assertTrue(data["voice_configured"])

@@ -17,6 +17,7 @@ from wsgiref.handlers import format_date_time
 
 import requests
 
+from backend_errors import UpstreamServiceError
 from config import IFLYTEK_APP_ID, IFLYTEK_API_KEY, IFLYTEK_API_SECRET, OCR_URL, OCR_HTTP_TIMEOUT
 
 
@@ -40,10 +41,18 @@ class IFlyTekOCRClient:
             headers={"Content-Type": "application/json"},
             json=payload,
             timeout=self.timeout,
+            verify=True,
         )
         if response.status_code != 200:
-            raise RuntimeError(f"OCR request failed: HTTP {response.status_code}, {response.text}")
-        return response.json()
+            raise UpstreamServiceError(
+                "ocr",
+                "OCR service request failed",
+                status_code=response.status_code,
+            )
+        try:
+            return response.json()
+        except ValueError as exc:
+            raise UpstreamServiceError("ocr", "OCR service returned invalid JSON") from exc
 
     def extract_text(self, image_path):
         """
@@ -132,10 +141,10 @@ class IFlyTekOCRClient:
             code = header.get("code", 0)
             if code not in (0, "0"):
                 message = header.get("message") or header.get("sid") or result
-                raise RuntimeError(f"OCR failed: code={code}, message={message}")
+                raise UpstreamServiceError("ocr", f"OCR service returned error code {code}")
             return
         if result.get("code") not in (None, "0", 0):
-            raise RuntimeError(f"OCR failed: code={result.get('code')}, desc={result.get('desc')}")
+            raise UpstreamServiceError("ocr", f"OCR service returned error code {result.get('code')}")
 
     @staticmethod
     def _extract_new_model_text(result):
