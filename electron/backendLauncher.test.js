@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const http = require('node:http');
 const os = require('node:os');
 const net = require('node:net');
 const path = require('node:path');
@@ -8,10 +9,13 @@ const test = require('node:test');
 const {
   buildBackendLaunchConfig,
   buildPythonBootstrapScript,
+  createLaunchToken,
+  fetchHealthData,
   findFreePort,
   inspectBundledResources,
   getAppRoot,
   summarizeStartupWarnings,
+  waitForHealth,
 } = require('./backendLauncher');
 
 test('getAppRoot uses source root in development', () => {
@@ -68,7 +72,59 @@ test('buildBackendLaunchConfig points at bundled Python and Flask app', () => {
   assert.equal(config.options.env.EXISTING, '1');
   assert.equal(config.options.env.FRONTEND_DIR, frontendDir);
   assert.equal(config.options.env.PYTHONPATH, `${backendDir}${path.delimiter}C:\\existing\\pythonpath`);
+  assert.equal(config.options.env.XUNFEI_LAUNCH_TOKEN, undefined);
   assert.equal(config.options.windowsHide, true);
+});
+
+test('health helpers send the launch-token header and require JSON health status', async () => {
+  const seenTokens = [];
+  const server = await new Promise((resolve, reject) => {
+    const instance = http.createServer((request, response) => {
+      seenTokens.push(request.headers['x-xunfei-launch-token']);
+      response.setHeader('content-type', 'application/json');
+      response.end(JSON.stringify({ code: 0, data: { status: 'ok' } }));
+    });
+    instance.on('error', reject);
+    instance.listen(0, '127.0.0.1', () => resolve(instance));
+  });
+
+  try {
+    const port = server.address().port;
+    await waitForHealth({ port, launchToken: 'expected-token', intervalMs: 10, timeoutMs: 1000 });
+    const health = await fetchHealthData({ port, launchToken: 'expected-token' });
+
+    assert.equal(health.data.status, 'ok');
+    assert.deepEqual(seenTokens, ['expected-token', 'expected-token']);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
+test('createLaunchToken returns distinct high-entropy URL-safe tokens', () => {
+  const first = createLaunchToken();
+  const second = createLaunchToken();
+
+  assert.notEqual(first, second);
+  assert.match(first, /^[A-Za-z0-9_-]{43}$/);
+  assert.match(second, /^[A-Za-z0-9_-]{43}$/);
+});
+
+test('buildBackendLaunchConfig injects launch token only into child environment', () => {
+  const appRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'xunfei-launcher-token-'));
+  fs.mkdirSync(path.join(appRoot, 'runtime', 'python'), { recursive: true });
+  fs.mkdirSync(path.join(appRoot, 'backend'), { recursive: true });
+  fs.mkdirSync(path.join(appRoot, 'frontend'), { recursive: true });
+  const env = { EXISTING: '1' };
+
+  const config = buildBackendLaunchConfig({
+    appRoot,
+    port: 5125,
+    env,
+    launchToken: 'test-launch-token',
+  });
+
+  assert.equal(config.options.env.XUNFEI_LAUNCH_TOKEN, 'test-launch-token');
+  assert.deepEqual(env, { EXISTING: '1' });
 });
 
 test('buildBackendLaunchConfig falls back to Chinese source directory names', () => {

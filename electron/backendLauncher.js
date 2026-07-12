@@ -1,4 +1,5 @@
 const http = require('node:http');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const net = require('node:net');
 const path = require('node:path');
@@ -50,7 +51,16 @@ function buildPythonBootstrapScript() {
   ].join('; ');
 }
 
-function buildBackendLaunchConfig({ appRoot, port, env = process.env }) {
+function createLaunchToken() {
+  return crypto.randomBytes(32).toString('base64url');
+}
+
+function buildBackendLaunchConfig({
+  appRoot,
+  port,
+  env = process.env,
+  launchToken,
+}) {
   const backendDir = findExistingDir(appRoot, BACKEND_DIR_NAMES);
   const frontendDir = findExistingDir(appRoot, FRONTEND_DIR_NAMES);
   const pythonExe = path.join(appRoot, 'runtime', 'python', 'python.exe');
@@ -69,6 +79,7 @@ function buildBackendLaunchConfig({ appRoot, port, env = process.env }) {
         FLASK_DEBUG: '0',
         FRONTEND_DIR: frontendDir,
         PYTHONPATH: prependPath(env.PYTHONPATH, backendDir),
+        ...(launchToken ? { XUNFEI_LAUNCH_TOKEN: launchToken } : {}),
       },
       windowsHide: true,
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -127,18 +138,37 @@ async function findFreePort(startPort = 5000, attempts = 30) {
   throw new Error(`No free port found from ${startPort} after ${attempts} attempts`);
 }
 
-function waitForHealth({ port, timeoutMs = 30000, intervalMs = 500 }) {
+function buildHealthRequestOptions({ port, timeoutMs, launchToken }) {
+  return {
+    hostname: '127.0.0.1',
+    port,
+    path: '/api/health',
+    timeout: timeoutMs,
+    headers: launchToken ? { 'X-Xunfei-Launch-Token': launchToken } : {},
+  };
+}
+
+function isHealthyPayload(body) {
+  try {
+    const payload = JSON.parse(body);
+    return payload && payload.code === 0 && payload.data && payload.data.status === 'ok';
+  } catch (_error) {
+    return false;
+  }
+}
+
+function waitForHealth({
+  port,
+  timeoutMs = 30000,
+  intervalMs = 500,
+  launchToken,
+}) {
   const deadline = Date.now() + timeoutMs;
 
   return new Promise((resolve, reject) => {
     function check() {
       const request = http.get(
-        {
-          hostname: '127.0.0.1',
-          port,
-          path: '/api/health',
-          timeout: Math.min(intervalMs, 1000),
-        },
+        buildHealthRequestOptions({ port, timeoutMs: Math.min(intervalMs, 1000), launchToken }),
         (response) => {
           let body = '';
           response.setEncoding('utf8');
@@ -146,7 +176,7 @@ function waitForHealth({ port, timeoutMs = 30000, intervalMs = 500 }) {
             body += chunk;
           });
           response.on('end', () => {
-            if (response.statusCode === 200 && body.includes('"status":"ok"')) {
+            if (response.statusCode === 200 && isHealthyPayload(body)) {
               resolve();
               return;
             }
@@ -173,15 +203,10 @@ function waitForHealth({ port, timeoutMs = 30000, intervalMs = 500 }) {
   });
 }
 
-function fetchHealthData({ port, timeoutMs = 5000 }) {
+function fetchHealthData({ port, timeoutMs = 5000, launchToken }) {
   return new Promise((resolve, reject) => {
     const request = http.get(
-      {
-        hostname: '127.0.0.1',
-        port,
-        path: '/api/health',
-        timeout: timeoutMs,
-      },
+      buildHealthRequestOptions({ port, timeoutMs, launchToken }),
       (response) => {
         let body = '';
         response.setEncoding('utf8');
@@ -233,6 +258,7 @@ module.exports = {
   BACKEND_DIR_NAMES,
   buildPythonBootstrapScript,
   buildBackendLaunchConfig,
+  createLaunchToken,
   fetchHealthData,
   findFreePort,
   getBundledEnvFile,
