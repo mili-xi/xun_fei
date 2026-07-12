@@ -73,6 +73,9 @@ test('security workflows and Dependabot are configured', () => {
   assert.ok(trigger(secretScan, 'pull_request'));
   assert.ok(trigger(secretScan, 'push'));
   assert.ok(trigger(secretScan, 'schedule'));
+  const secretScanConfig = JSON.stringify(secretScan);
+  assert.match(secretScanConfig, /gitleaks git \. --redact --exit-code 1/);
+  assert.doesNotMatch(secretScanConfig, /gitleaks-action/);
   assert.equal(fs.existsSync(dependabotPath), true, 'dependabot.yml must exist');
 });
 
