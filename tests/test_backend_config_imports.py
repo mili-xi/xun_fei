@@ -3,6 +3,7 @@ import importlib
 import json
 import os
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -145,7 +146,13 @@ class BackendConfigImportTests(unittest.TestCase):
         sys.modules.pop("config", None)
         config = importlib.import_module("config")
 
-        self.assertTrue(config.ffmpeg_is_available())
+        with tempfile.TemporaryDirectory() as temp_dir:
+            ffmpeg_path = Path(temp_dir) / "ffmpeg.exe"
+            ffmpeg_path.touch()
+            settings = config.load_settings({"FFMPEG_PATH": str(ffmpeg_path)})
+
+            with patch.object(config, "SETTINGS", settings):
+                self.assertTrue(config.ffmpeg_is_available())
 
     def test_spark_client_can_override_timeout_per_instance(self):
         llm_client = importlib.import_module("llm_client")
