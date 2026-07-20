@@ -16,6 +16,6 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
 
       - name: Review dependency diff
-        uses: actions/dependency-review-action@da6b129d277471d01428781accece1bd831a8b0d
+        uses: actions/dependency-review-action@1e966ba708e4b64bb0c9bfb7abb5a232840be16a
         with:
           fail-on-severity: high
