@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@cyclonedx/cyclonedx-npm": "6.0.0",
-    "@electron/asar": "4.2.0",
+    "@electron/asar": "4.2.1",
     "7zip-bin": "5.2.0",
     "electron": "43.1.0",
     "electron-builder": "26.15.3",
