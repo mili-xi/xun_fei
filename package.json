@@ -21,7 +21,7 @@
     "dist:zip": "electron-builder --win zip"
   },
   "devDependencies": {
-    "@cyclonedx/cyclonedx-npm": "6.0.0",
+    "@cyclonedx/cyclonedx-npm": "6.0.1",
     "@electron/asar": "4.2.0",
     "7zip-bin": "5.2.0",
     "electron": "43.1.0",
